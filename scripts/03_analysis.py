@@ -1,16 +1,26 @@
-# scripts/03_analysis.py
+import pandas as pd
 
-# Load the clean data, compute summary stats by year, by age/sex, and year-over-year changes, save CSVs.
+def compute_summary(df):
+    by_year = df.groupby('year')['percentage'].mean().reset_index()
+    pct_change = df.pivot_table(
+        index='education_level',
+        columns='year',
+        values='percentage'
+    ).diff(axis=1)
+    by_age_sex = df.groupby(['year', 'age_range', 'sex'])['percentage'].mean().reset_index()
+    return {
+        'by_year': by_year,
+        'pct_change': pct_change,
+        'by_age_sex': by_age_sex
+    }
 
-# Import pandas
-# Define compute_summary(df):
-#   by_year = average percentage per year
-#   pct_change = pivot education_level × year and diff across columns
-#   by_age_sex = group by year, age_range, sex
-#   return dict of DataFrames
-# In main():
-#   df = pd.read_csv('data/processed/education_data_clean.csv')
-#   summary = compute_summary(df)
-#   summary[...]→outputs/stats/*.csv
-#   print confirmation
-# if __name__ == '__main__': main()
+def main():
+    df = pd.read_csv('data/processed/education_data_clean.csv')
+    summary = compute_summary(df)
+    summary['by_year'].to_csv('outputs/stats/education_by_year.csv', index=False)
+    summary['pct_change'].to_csv('outputs/stats/education_pct_change.csv')
+    summary['by_age_sex'].to_csv('outputs/stats/education_by_age_sex.csv', index=False)
+    print('Analysis results saved to outputs/stats/')
+
+if __name__ == '__main__':
+    main()
