@@ -66,3 +66,21 @@ project-root/
    python scripts/05_modeling.py
    ```
 
+## Requirements
+
+* Python 3.7 or higher
+* pandas
+* matplotlib
+* scikit-learn
+
+Install all at once via:
+
+```bash
+pip install -r requirements.txt
+```
+
+## Acknowledgments
+
+dataset name: U.S. Educational Attainment \[1995-2015]
+dataset author: Roy Garrard
+dataset source: [https://www.kaggle.com/datasets/noriuk/us-educational-attainment-19952015?select=2015.xlsx](https://www.kaggle.com/datasets/noriuk/us-educational-attainment-19952015?select=2015.xlsx)
